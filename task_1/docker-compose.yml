@@ -1,0 +1,26 @@
+services:
+  contacts:
+    depends_on:
+      - redis
+    container_name: contacts
+    restart: always
+    volumes:
+      - ./task_1:/task_1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+  redis:
+    container_name: redis
+    image: "redis:latest"
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  redis_data:
