@@ -1,7 +1,7 @@
 -- Решение 2:
--- Перенос статуса с помощью паттерна,
--- проверяем на схожесть строк при помощи оператора LIKE
--- и копируем по совпадению.
-INSERT INTO full_names (status)
-SELECT status FROM short_names
-WHERE full_names.names LIKE short_names.names + '%';
+-- Разделение имени файла на части с помощью функции split_part
+-- и сравнение на основе результата
+UPDATE full_names
+SET status = short_names.status
+FROM short_names
+WHERE split_part(full_names.name, '.', 1) = short_names.name;
